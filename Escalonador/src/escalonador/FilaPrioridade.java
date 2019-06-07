@@ -36,7 +36,9 @@ public class FilaPrioridade {
     
     public void recebeProcesso(Processo p){
         try{
-            this.filaPrioridade.add(p);
+            if((boolean)this.processoFinalisou(p)){
+                this.filaPrioridade.add(p);
+            }
         }catch(Exception e){
             this.erro.println("Erro 1 (FilaPrioridade.recebeProcesso): Não existe processo para ser adicionado.");
         }

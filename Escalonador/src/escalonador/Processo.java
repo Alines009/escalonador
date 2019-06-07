@@ -13,14 +13,16 @@ public class Processo {
     private int memory;
     private int printer;
     private int disc;
+    private int qtdExec;
     
-    public void adicionarProcesso(int arrivalTime, int priority, int timeCPU, int printer, int disc){
-        this.id = 0;
+    public void adicionarProcesso(int id, int arrivalTime, int priority, int timeCPU, int printer, int disc){
+        this.id = id;
         this.arrivalTime = arrivalTime;
         this.priority = priority;
         this.timeCPU = timeCPU;
         this.printer = printer;
         this.disc = disc;
+        this.setQtdExec(0);
     }
 
     public int getId() {
@@ -76,4 +78,20 @@ public class Processo {
     public void setPrinter(int printer) {
         this.printer = printer;
     }
+
+    /**
+     * @return the qtdExec
+     */
+    public int getQtdExec() {
+        return qtdExec;
+    }
+
+    /**
+     * @param qtdExec the qtdExec to set
+     */
+    public void setQtdExec(int qtdExec) {
+        this.qtdExec = qtdExec;
+    }
+    
+    
 }

@@ -37,9 +37,21 @@ public class FilaComum {
     
     public void recebeProcesso(Processo p){
         try{
-            ArrayList<Processo> a = this.filaComum.get(0);
-            a.add(p);
-            this.filaComum.set(0, a);
+            if((boolean)this.processoFinalisou(p)){
+                if(p.getQtdExec() == 0){
+                    ArrayList<Processo> a = this.filaComum.get(0);
+                    a.add(p);
+                    this.filaComum.set(0, a);
+                }else if(p.getQtdExec() == 1){
+                    ArrayList<Processo> a = this.filaComum.get(1);
+                    a.add(p);
+                    this.filaComum.set(1, a);
+                }else if (p.getQtdExec() >= 2){
+                    ArrayList<Processo> a = this.filaComum.get(2);
+                    a.add(p);
+                    this.filaComum.set(2, a);
+                }
+            }
         }catch(Exception e){
             this.erro.println("Erro 1 (FilaComum.recebeProcesso): Não existe processo para ser adicionado.");
         }

@@ -44,7 +44,19 @@ public class CPU {
     
     public Object enviaProcesso(){
         try{
-            this.p.setArrivalTime((this.p.getArrivalTime() - this.tempoUtilizacao));
+            if(p.getPriority() == 0){
+                this.p.setArrivalTime(0);
+            }else{
+                
+                this.p.setArrivalTime(
+                        (this.p.getArrivalTime() - this.tempoUtilizacao)
+                );
+                
+                this.p.setQtdExec(
+                        (this.p.getQtdExec() + 1)
+                );
+            }
+            
             Processo p = this.p;
             this.p = null;
             this.tempoUtilizacao = 0;
