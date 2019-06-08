@@ -71,9 +71,8 @@ public class FilaComum {
     public void ImprimeComum(){
         System.out.println("PROCESSOS EM FILA COMUM");
         for(int i = 0; i< this.filaComum.size(); i++){
-            if(this.filaComum.get(i) == null) 
-                System.out.println("NÃO HÁ PROCESSOS PARA A FILA " +i);
-            for(int j = 0; j < this.filaComum.get(i).size();i++){
+            System.out.println("FILA "+i);
+            for(int j = 0; j < this.filaComum.get(i).size(); j++){
                 System.out.println(this.filaComum.get(i).get(j).toString());
             }
         }

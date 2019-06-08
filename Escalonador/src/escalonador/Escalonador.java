@@ -17,12 +17,21 @@ public class Escalonador {
         
         fp.ImprimePrioridade();
         fc.ImprimeComum();
-        
+        int flag;
         try {
             Despachante d = new Despachante();
-            while(quantum < 10){
+            while(!novos.isEmpty()){
                 if(quantum%2==0){
-                    d.Despachar(novos, quantum, fp, fc);
+                    int i = 0;
+                    while(i < novos.size()){
+                        flag = d.Despachar(novos.get(i), quantum, fp, fc);
+                        if(flag == 0){
+                            novos.remove(i);
+                        }else{
+                            i += 1;
+                        }
+                    }
+                    
                 }
             Thread.sleep (1000); 
             
