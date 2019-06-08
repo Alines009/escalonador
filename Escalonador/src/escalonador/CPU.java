@@ -24,36 +24,37 @@ public class CPU {
         this.p = null;
     }
     
-    public void recebeProcesso(Processo p){
-        try{
+    public int recebeProcesso(Processo p){
+        if(p != null){
             this.p = p;
             this.tempoUtilizacao = p.getArrivalTime();
-        }catch(Exception e){
-            this.erro.println("Erro 1 (CPU.recebeProcesso): Não existe processo para ser adicionado.");
+            return 0;
         }
+        this.erro.println("Erro 1 (CPU.recebeProcesso): Não existe processo para ser adicionado.");
+        return 1;        
     }
     
-    public void recebeProcesso(Processo p, int t){
-        try{
+    public int recebeProcesso(Processo p, int t){
+        if(p != null){
             this.p = p;
             this.tempoUtilizacao = t;
-        }catch(Exception e){
-            this.erro.println("Erro 1 (CPU.recebeProcesso): Não existe processo para ser adicionado.");
+            return 0;
         }
+        this.erro.println("Erro 1 (CPU.recebeProcesso): Não existe processo para ser adicionado.");
+        return 1;
     }
     
     public Object enviaProcesso(){
-        try{
+        if(this.p != null){
             if(p.getPriority() == 0){
                 this.p.setArrivalTime(0);
             }else{
-                
                 this.p.setArrivalTime(
-                        (this.p.getArrivalTime() - this.tempoUtilizacao)
+                    (this.p.getArrivalTime() - this.tempoUtilizacao)
                 );
                 
                 this.p.setQtdExec(
-                        (this.p.getQtdExec() + 1)
+                    (this.p.getQtdExec() + 1)
                 );
             }
             
@@ -61,9 +62,9 @@ public class CPU {
             this.p = null;
             this.tempoUtilizacao = 0;
             return p;
-        }catch(Exception e){
-            this.erro.println("Erro 2 (CPU.enviaProcesso): Não existe processo para ser enviado.");
-            return null;
         }
+        this.erro.println("Erro 2 (CPU.enviaProcesso): Não existe processo para ser enviado.");
+        return 2;
+        
     }
 }

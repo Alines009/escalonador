@@ -25,36 +25,40 @@ public class FilaComum {
         }
     }
     
-    public Object processoFinalisou(Processo p){
-        try{
-            return (p.getArrivalTime() == 0);
-        }catch(Exception e){
-            
-            this.erro.println("Erro 1 (FilaComum.processoFinalisou): Não existe processo para comparar o tempo.");
-            return null;
-        }        
+    public int processoFinalizou(Processo p){
+        if(p.getArrivalTime() == 0){
+            return 20;            
+        }else if(p.getArrivalTime() != 0){
+            return 10;      
+        }  
+        this.erro.println("Erro 1 (FilaComum.processoFinalisou): Não existe processo para comparar o tempo.");
+        return 1;
     }
     
-    public void recebeProcesso(Processo p){
-        try{
-            if((boolean)this.processoFinalisou(p)){
-                if(p.getQtdExec() == 0){
-                    ArrayList<Processo> a = this.filaComum.get(0);
-                    a.add(p);
-                    this.filaComum.set(0, a);
-                }else if(p.getQtdExec() == 1){
-                    ArrayList<Processo> a = this.filaComum.get(1);
-                    a.add(p);
-                    this.filaComum.set(1, a);
-                }else if (p.getQtdExec() >= 2){
-                    ArrayList<Processo> a = this.filaComum.get(2);
-                    a.add(p);
-                    this.filaComum.set(2, a);
-                }
+    public int recebeProcesso(Processo p){
+
+        if(this.processoFinalizou(p) == 10){
+            if(p.getQtdExec() == 0){
+                ArrayList<Processo> a = this.filaComum.get(0);
+                a.add(p);
+                this.filaComum.set(0, a);
+                return 0;
+            }else if(p.getQtdExec() == 1){
+                ArrayList<Processo> a = this.filaComum.get(1);
+                a.add(p);
+                this.filaComum.set(1, a);
+                return 0;
+            }else if (p.getQtdExec() >= 2){
+                ArrayList<Processo> a = this.filaComum.get(2);
+                a.add(p);
+                this.filaComum.set(2, a);
+                return 0;
             }
-        }catch(Exception e){
+        }else if(this.processoFinalizou(p) == 1){
             this.erro.println("Erro 1 (FilaComum.recebeProcesso): Não existe processo para ser adicionado.");
+            return 1;
         }
+        return 20;
     }
     
     public Object enviaProcesso(){
@@ -68,6 +72,6 @@ public class FilaComum {
             }
         }
         this.erro.println("Erro 2 (FilaComum.enviaProcesso): Fila Vazia.");
-        return null;
+        return 2;
     }
 }

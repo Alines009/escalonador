@@ -24,24 +24,25 @@ public class FilaPrioridade {
         this.filaPrioridade = new ArrayList<Processo>();
     }
     
-    public Object processoFinalisou(Processo p){
-        try{
-            return (p.getArrivalTime() == 0);
-        }catch(Exception e){
-            
-            this.erro.println("Erro 1 (FilaPrioridade.processoFinalisou): Não existe processo para comparar o tempo.");
-            return null;
-        }        
+    public int processoFinalizou(Processo p){
+        if(p.getArrivalTime() == 0){
+            return 20;            
+        }else if(p.getArrivalTime() != 0){
+            return 10;      
+        }  
+        this.erro.println("Erro 1 (FilaPrioridade.processoFinalisou): Não existe processo para comparar o tempo.");
+        return 1;     
     }
     
-    public void recebeProcesso(Processo p){
-        try{
-            if((boolean)this.processoFinalisou(p)){
-                this.filaPrioridade.add(p);
-            }
-        }catch(Exception e){
-            this.erro.println("Erro 1 (FilaPrioridade.recebeProcesso): Não existe processo para ser adicionado.");
+    public int recebeProcesso(Processo p){
+        if(this.processoFinalizou(p) == 20){
+            return 0;
+        }else if(this.processoFinalizou(p) == 10){
+            this.erro.println("Erro 4 (FilaPrioridade.recebeProcesso): Processo retornado não foi executado por completo pela CPU.");
+            return 4;
         }
+        this.erro.println("Erro 1 (FilaPrioridade.recebeProcesso): Não existe processo para ser adicionado.");
+        return 1;
     }
     
     public Object enviaProcesso(){
@@ -49,7 +50,7 @@ public class FilaPrioridade {
             return this.filaPrioridade.remove(0);
         }catch(Exception e){
             this.erro.println("Erro 2 (FilaPrioridade.enviaProcesso): Fila Vazia.");
-            return null;
+            return 2;
         }
     }
 }

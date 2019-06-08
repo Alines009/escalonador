@@ -20,21 +20,21 @@ public class Disco {
         this.lista = new ArrayList<Processo>();
     }
     
-    public void recebeProcesso(Processo p){
-        try{
+    public int recebeProcesso(Processo p){
+        if(p != null){
             this.lista.add(p);
-        }catch(Exception e){
-            this.erro.println("Erro 1 (Disco.recebeProcesso): Não existe processo para ser adicionado.");
+            return 0;
         }
+        this.erro.println("Erro 1 (Disco.recebeProcesso): Não existe processo para ser adicionado.");
+        return 1;
     };
     
     
     public Object enviaProcesso(){
-        try{
+        if(!this.lista.isEmpty()){
             return this.lista.remove(0);
-        }catch(Exception e){
-            this.erro.println("Erro 2 (Disco.enviaProcesso): Fila Vazia.");
-            return null;
         }
+        this.erro.println("Erro 2 (Disco.enviaProcesso): Fila Vazia.");
+        return 2;
     }
 }
