@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package escalonador;
 
 import java.io.PrintStream;
@@ -18,12 +14,16 @@ public class RAM {
     private int espacoAlocado;
     private ArrayList<Integer> fila;
     private PrintStream erro;
+    private int quadroDaMP[];
+    private int quadrosAlocados;
     
     public RAM() throws UnsupportedEncodingException{
         this.erro = new PrintStream(System.err, true, "UTF-8");
         this.espacoAlocado = 0;
         this.fila = new ArrayList<Integer>();
-        this.espacoTotal = 15259;               // 16GB em MiB (MebiByte)
+        this.espacoTotal = 16384; // 16GB em MB (MegaByte)   
+        this.quadrosAlocados = 0;        //A MP eh dividida em 256 quadros cada uma de tamanho igual a 64MB  
+        this.quadroDaMP = new int [256];
     }
     
     int alocaProcesso(Processo p){

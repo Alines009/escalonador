@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package escalonador;
 
 import java.io.PrintStream;
@@ -26,39 +22,36 @@ public class FilaComum {
     }
     
     public int processoFinalizou(Processo p){
-        if(p.getArrivalTime() == 0){
-            return 20;            
-        }else if(p.getArrivalTime() != 0){
-            return 10;      
+        if(p.getTimeCPU() == 0){
+            return 20; 
+        }else if(p.getTimeCPU() != 0){
+            return 10; 
         }  
-        this.erro.println("Erro 1 (FilaComum.processoFinalisou): Não existe processo para comparar o tempo.");
+        this.erro.println("Erro 1 (FilaComum.processoFinalizou): Não existe processo para comparar o tempo.");
         return 1;
     }
     
-    public int recebeProcesso(Processo p){
-
-        if(this.processoFinalizou(p) == 10){
-            if(p.getQtdExec() == 0){
-                ArrayList<Processo> a = this.filaComum.get(0);
+    public int recebeProcesso(Processo p){ //Um processo eh adicionado na fila de processos de usuario
+            if(p.getQtdExec() == 0){ //Se o processo nunca foi executado
+                ArrayList<Processo> a = this.filaComum.get(0); 
                 a.add(p);
                 this.filaComum.set(0, a);
                 return 0;
-            }else if(p.getQtdExec() == 1){
-                ArrayList<Processo> a = this.filaComum.get(1);
+            }else if(p.getQtdExec() == 1){ //Se o processo foi executado apenas uma vez
+                ArrayList<Processo> a = this.filaComum.get(1); 
                 a.add(p);
                 this.filaComum.set(1, a);
                 return 0;
-            }else if (p.getQtdExec() >= 2){
-                ArrayList<Processo> a = this.filaComum.get(2);
+            }else if (p.getQtdExec() >= 2){ //Se o processo foi executado mais de uma vez
+                ArrayList<Processo> a = this.filaComum.get(2); 
                 a.add(p);
                 this.filaComum.set(2, a);
                 return 0;
             }
-        }else if(this.processoFinalizou(p) == 1){
+
             this.erro.println("Erro 1 (FilaComum.recebeProcesso): Não existe processo para ser adicionado.");
             return 1;
-        }
-        return 20;
+        
     }
     
     public Object enviaProcesso(){
@@ -73,5 +66,15 @@ public class FilaComum {
         }
         this.erro.println("Erro 2 (FilaComum.enviaProcesso): Fila Vazia.");
         return 2;
+    }
+    
+    public void ImprimeComum(){
+        System.out.println("PROCESSOS EM FILA COMUM");
+        for(int i = 0; i< this.filaComum.size(); i++){
+            System.out.println("FILA "+i);
+            for(int j = 0; j < this.filaComum.get(i).size(); j++){
+                System.out.println(this.filaComum.get(i).get(j).toString());
+            }
+        }
     }
 }

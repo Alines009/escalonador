@@ -9,32 +9,28 @@ import java.util.Scanner;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
 
 public class Leitura {
-    public Leitura() throws Exception {
-        lerArquivos();
-    }
-    
-    private void lerArquivos() throws Exception{
-        FileReader arq = new FileReader("processos.txt");
+    int id = 0;
+    public ArrayList lerArquivos() throws Exception{
+        ArrayList <Processo> novos = new ArrayList();
+        FileReader arq = new FileReader("processos.txt"); //Lê os processos no arquivo
         BufferedReader lerArq = new BufferedReader(arq);
-            
         String linha = lerArq.readLine();
         while (linha != null){
-            adicionarNovosProcessos(linha);
-            System.out.printf("%s\n",linha);
+            Processo p = CriarProcessos(linha);
+            novos.add(p);            
             linha = lerArq.readLine();
         }
+        return novos;
     }
     
-    private Processo adicionarNovosProcessos(String linha){
+    public Processo CriarProcessos(String linha){
         String array[] = new String [6];
         array = linha.split(", ");
-        for(int i=0;i<5;i++){
-            System.out.println(array[i]+" ");
-        }
-        System.out.println("\n");
-        return null;
+        Processo p = new Processo(id,Integer.parseInt(array[0]),Integer.parseInt(array[1]),Integer.parseInt(array[2]),Integer.parseInt(array[3]),Integer.parseInt(array[4]),Integer.parseInt(array[5]));
+        id += 1;
+        return p;
     }
 }

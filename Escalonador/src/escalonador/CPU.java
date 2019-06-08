@@ -1,17 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package escalonador;
 
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
-/**
- *
- * @author Ricardo Monteiro
- */
 public class CPU {
     private int id;
     private Processo p;
@@ -27,7 +19,7 @@ public class CPU {
     public int recebeProcesso(Processo p){
         if(p != null){
             this.p = p;
-            this.tempoUtilizacao = p.getArrivalTime();
+            this.tempoUtilizacao = p.getTimeCPU();
             return 0;
         }
         this.erro.println("Erro 1 (CPU.recebeProcesso): Não existe processo para ser adicionado.");
@@ -47,10 +39,10 @@ public class CPU {
     public Object enviaProcesso(){
         if(this.p != null){
             if(p.getPriority() == 0){
-                this.p.setArrivalTime(0);
+                this.p.setTimeCPU(0);
             }else{
-                this.p.setArrivalTime(
-                    (this.p.getArrivalTime() - this.tempoUtilizacao)
+                this.p.setTimeCPU(
+                    (this.p.getTimeCPU() - this.tempoUtilizacao)
                 );
                 
                 this.p.setQtdExec(

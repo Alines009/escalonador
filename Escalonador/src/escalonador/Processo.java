@@ -14,15 +14,21 @@ public class Processo {
     private int printer;
     private int disc;
     private int qtdExec;
+    private int tabelaDePaginas[];
     
-    public void adicionarProcesso(int id, int arrivalTime, int priority, int timeCPU, int printer, int disc){
+    public Processo(int id, int arrivalTime, int priority, int timeCPU, int memory, int printer, int disc){
         this.id = id;
         this.arrivalTime = arrivalTime;
         this.priority = priority;
         this.timeCPU = timeCPU;
+        this.memory = memory;
         this.printer = printer;
         this.disc = disc;
         this.setQtdExec(0);
+    }
+    
+    public String toString(){
+        return this.getId()+" "+this.arrivalTime+" "+this.priority+" "+this.timeCPU+" "+this.memory+" "+this.printer+" "+this.disc+"\n";  
     }
 
     public int getId() {
@@ -92,6 +98,23 @@ public class Processo {
     public void setQtdExec(int qtdExec) {
         this.qtdExec = qtdExec;
     }
+
+    /**
+     * @return the timeCPU
+     */
+    public int getTimeCPU() {
+        return timeCPU;
+    }
+
+    /**
+     * @param timeCPU the timeCPU to set
+     */
+    public void setTimeCPU(int timeCPU) {
+        this.timeCPU = timeCPU;
+    }
+
+
+
     
     
 }
