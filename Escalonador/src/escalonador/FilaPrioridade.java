@@ -1,20 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package escalonador;
 
 import java.util.ArrayList;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
-
-
-/**
- *
- * @author Ricardo Monteiro
- */
 public class FilaPrioridade {
     private ArrayList<Processo> filaPrioridade;
     private PrintStream erro;
@@ -25,24 +15,22 @@ public class FilaPrioridade {
     }
     
     public int processoFinalizou(Processo p){
-        if(p.getArrivalTime() == 0){
+        if(p.getTimeCPU() == 0){
             return 20;            
-        }else if(p.getArrivalTime() != 0){
+        }else if(p.getTimeCPU() != 0){
             return 10;      
         }  
-        this.erro.println("Erro 1 (FilaPrioridade.processoFinalisou): Não existe processo para comparar o tempo.");
+        this.erro.println("Erro 1 (FilaPrioridade.processoFinalizou): Não existe processo para comparar o tempo.");
         return 1;     
     }
     
     public int recebeProcesso(Processo p){
-        if(this.processoFinalizou(p) == 20){
+        try{
+            this.filaPrioridade.add(p);
             return 0;
-        }else if(this.processoFinalizou(p) == 10){
-            this.erro.println("Erro 4 (FilaPrioridade.recebeProcesso): Processo retornado não foi executado por completo pela CPU.");
-            return 4;
+        }catch(Exception e){
+            return 1;
         }
-        this.erro.println("Erro 1 (FilaPrioridade.recebeProcesso): Não existe processo para ser adicionado.");
-        return 1;
     }
     
     public Object enviaProcesso(){
@@ -51,6 +39,17 @@ public class FilaPrioridade {
         }catch(Exception e){
             this.erro.println("Erro 2 (FilaPrioridade.enviaProcesso): Fila Vazia.");
             return 2;
+        }
+    }
+    
+    public void ImprimePrioridade(){
+        if(this.filaPrioridade== null){
+            System.out.println("Não há processos nesta fila");
+        } else {
+        System.out.println("PROCESSOS EM FILA DE PRIORIDADE");
+        for(int i = 0; i< this.filaPrioridade.size(); i++){
+            System.out.println(this.filaPrioridade.get(i).toString());
+        }
         }
     }
 }
