@@ -72,7 +72,7 @@ public class Escalonador {
                         // Existe processador livre? Se sim, envia processo para a CPU
                         if(prioridades.contains(-1)){
                             int cpuDisponivel = prioridades.indexOf(-1);
-                            cpu[cpuDisponivel].recebeProcesso((Processo) fc.enviaProcesso());
+                            cpu[cpuDisponivel].recebeProcesso((Processo) fc.enviaProcesso(), 2);
                         }
                     }
                 }
