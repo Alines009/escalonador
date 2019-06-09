@@ -24,8 +24,9 @@ public class FilaPrioridade {
         return 1;     
     }
     
-    public int recebeProcesso(Processo p){
+    public int recebeProcesso(Processo p, RAM memoria){
         try{
+            memoria.alocaProcesso(p);
             this.filaPrioridade.add(p);
             return 0;
         }catch(Exception e){

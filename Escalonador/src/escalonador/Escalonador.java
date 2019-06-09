@@ -17,6 +17,15 @@ public class Escalonador {
         
         fp.ImprimePrioridade();
         fc.ImprimeComum();
+        
+        //Inicializacao da Memoria Principal
+        RAM memoria = new RAM();        
+        //Inicializacao das CPUs
+        CPU cp1 = new CPU(1);
+        CPU cp2 = new CPU(2);
+        CPU cp3 = new CPU(3);
+        CPU cp4 = new CPU(4);
+        
         int flag;
         try {
             Despachante d = new Despachante();
@@ -24,7 +33,7 @@ public class Escalonador {
                 if(quantum%2==0){
                     int i = 0;
                     while(i < novos.size()){
-                        flag = d.Despachar(novos.get(i), quantum, fp, fc);
+                        flag = d.Despachar(novos.get(i), quantum, fp, fc,memoria);
                         if(flag == 0){
                             novos.remove(i);
                         }else{
@@ -33,13 +42,15 @@ public class Escalonador {
                     }
                     
                 }
-            Thread.sleep (1000); 
+                
             
-        
+            Thread.sleep (1000); 
             System.out.print("\nTempo: "+quantum);
             quantum +=1;
             }
-            
+            for(int j=0;j<256;j++){
+                memoria.getQuadroDaMP();
+            }
             fp.ImprimePrioridade();
             fc.ImprimeComum();
         } catch (InterruptedException ex) {}

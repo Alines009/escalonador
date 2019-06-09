@@ -5,6 +5,8 @@
  */
 package escalonador;
 
+import java.util.ArrayList;
+
 public class Processo {
     private int id;
     private int arrivalTime;
@@ -14,7 +16,8 @@ public class Processo {
     private int printer;
     private int disc;
     private int qtdExec;
-    private int tabelaDePaginas[];
+    private ArrayList<Integer> tabelaDePaginas;
+    private int qtdPaginas;
     
     public Processo(int id, int arrivalTime, int priority, int timeCPU, int memory, int printer, int disc){
         this.id = id;
@@ -24,7 +27,9 @@ public class Processo {
         this.memory = memory;
         this.printer = printer;
         this.disc = disc;
+        this.tabelaDePaginas = new ArrayList<>();
         this.setQtdExec(0);
+        this.qtdPaginas = (int) Math.ceil((double)memory/64);
     }
     
     public String toString(){
@@ -71,9 +76,6 @@ public class Processo {
         this.disc = disc;
     }
 
-    /**
-     * @return the printer
-     */
     public int getPrinter() {
         return printer;
     }
@@ -111,6 +113,37 @@ public class Processo {
      */
     public void setTimeCPU(int timeCPU) {
         this.timeCPU = timeCPU;
+    }
+
+    /**
+     * @return the qtdPaginas
+     */
+    public int getQtdPaginas() {
+        return qtdPaginas;
+    }
+
+    /**
+     * @param qtdPaginas the qtdPaginas to set
+     */
+    public void setQtdPaginas(int qtdPaginas) {
+        this.qtdPaginas = qtdPaginas;
+    }
+
+    /**
+     * @return the tabelaDePaginas
+     */
+    public ArrayList<Integer> getTabelaDePaginas() {
+        return tabelaDePaginas;
+    }
+
+    /**
+     * @param tabelaDePaginas the tabelaDePaginas to set
+     */
+    public void setTabelaDePaginas(ArrayList<Integer> tabelaDePaginas) {
+        this.tabelaDePaginas = tabelaDePaginas;
+        for(int i = 0; i< this.tabelaDePaginas.size(); i++){
+            System.out.println("\n"+i+" : "+this.tabelaDePaginas.get(i).toString());
+        }
     }
 
 

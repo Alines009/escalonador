@@ -3,16 +3,16 @@ package escalonador;
 import java.util.ArrayList;
 
 public class Despachante {
-    public int Despachar(Processo p, int quantum, FilaPrioridade fp, FilaComum fc){
+    public int Despachar(Processo p, int quantum, FilaPrioridade fp, FilaComum fc, RAM memoria){
         int t;
         int arrival = p.getArrivalTime(); //Recupera o tempo de chegada do processo
         if(arrival <= quantum){
             int prioridade = p.getPriority();
             if(prioridade == 0){
-                t = fp.recebeProcesso(p);
+                t = fp.recebeProcesso(p,memoria);
                 
             } else {
-                t = fc.recebeProcesso(p);
+                t = fc.recebeProcesso(p,memoria);
 
             }
             if(t == 0){

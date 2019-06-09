@@ -31,8 +31,9 @@ public class FilaComum {
         return 1;
     }
     
-    public int recebeProcesso(Processo p){ //Um processo eh adicionado na fila de processos de usuario
+    public int recebeProcesso(Processo p, RAM memoria){ //Um processo eh adicionado na fila de processos de usuario
             if(p.getQtdExec() == 0){ //Se o processo nunca foi executado
+                memoria.alocaProcesso(p);
                 ArrayList<Processo> a = this.filaComum.get(0); 
                 a.add(p);
                 this.filaComum.set(0, a);
