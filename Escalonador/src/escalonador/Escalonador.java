@@ -25,6 +25,16 @@ public class Escalonador {
             Despachante d = new Despachante();
             while(executando){
                 if(contador%2==0){
+                    // Verficar atividade do cpu
+                    for(int i = 0; i < cpu.length; i++){
+                        if(cpu[i].terminouExecucao()){  // O processo que está na cpu terminou sua eecução?
+                            Processo p = (Processo) cpu[i].enviaProcesso();
+                            
+                            if(p.getPriority() != 0 && p.getTimeCPU() != 0){   // O processo não possui prioridade?
+                                fc.recebeProcesso(p);   // Mando de volta para o feedback
+                            }
+                        }
+                    }
                     int i = 0;
                     while(i < novos.size()){
                         flag = d.Despachar(novos.get(i), contador, fp, fc);
@@ -34,6 +44,36 @@ public class Escalonador {
                             i += 1;
                         }
                     }
+                    executando = terminou(fp,fc,novos,cpu);
+                    // Existe algum processo para executar na CPU?
+                    if((!fp.isVazia()) || (!fc.isVazia())){
+                        // Faço uma verificação se todos estão ocupados e sua prioridade
+                        ArrayList<Integer> prioridades = new ArrayList<Integer>();
+                        for(int j = 0; j < cpu.length; j++){
+                            prioridades.add(cpu[j].getPrioridadeProcesso());
+                        }
+                        // Enquanto existir processador livre e alguma das filas estão com processos? Se sim, envia processo para a CPU
+                        while(prioridades.contains(-1) && ((!fp.isVazia()) || (!fc.isVazia())) ){
+                            Processo p;
+                            // Existe processo na fila de prioridade para executar na CPU?
+                            if(!fp.isVazia()){
+                                p = (Processo) fp.enviaProcesso();
+                            
+                            // Existe processo na fila comum para executar na CPU?
+                            }else{
+                                p = (Processo) fc.enviaProcesso();
+                            }
+                            int cpuDisponivel = prioridades.indexOf(-1);
+                            if(p.getPriority() == 0){
+                                cpu[cpuDisponivel].recebeProcesso(p);
+                            }else{
+                                cpu[cpuDisponivel].recebeProcesso(p, 2);
+                            }
+                            prioridades.set(cpuDisponivel, p.getPriority());
+                            
+                        }
+                    }
+                    /*
                     // Se a fila de prioridades está vazia vá para a fila comum
                     if(fp.isVazia()){
                         // Se a fila comum e a fila de novos está também vazia verifica-se as CPUs  
@@ -59,36 +99,51 @@ public class Escalonador {
                             // Existe processador livre? Se sim, envia processo para a CPU
                             if(prioridades.contains(-1)){
                                 int cpuDisponivel = prioridades.indexOf(-1);
-                                cpu[cpuDisponivel].recebeProcesso((Processo) fp.enviaProcesso());
+                                cpu[cpuDisponivel].recebeProcesso((Processo) fc.enviaProcesso(), 2);
                             }
-                        }
+                        }*/
                         
-                    }else{
-                        // Faço uma verificação se todos estão ocupados e sua prioridade
-                        ArrayList<Integer> prioridades = new ArrayList<Integer>();
-                        for(int j = 0; j < cpu.length; j++){
-                            prioridades.add(cpu[j].getPrioridadeProcesso());
-                        }
-                        // Existe processador livre? Se sim, envia processo para a CPU
-                        if(prioridades.contains(-1)){
-                            int cpuDisponivel = prioridades.indexOf(-1);
-                            cpu[cpuDisponivel].recebeProcesso((Processo) fc.enviaProcesso(), 2);
-                        }
                     }
-                }
-                
-                
-            Thread.sleep (1000); 
+                Thread.sleep (1000); 
             
         
-            System.out.print("\nTempo: "+contador);
-            contador +=1;
+                System.out.print("\nTempo: "+contador);
+                contador +=1;
+                for(int i = 0; i < cpu.length; i++){
+                    if(!cpu[i].isOcioso()){
+                        cpu[i].incrementaTempo();
+                    }
+                }
+                    
             }
-            
+ 
        //     fp.ImprimePrioridade();
          //   fc.ImprimeComum();
         } catch (InterruptedException ex) {}
         
     }
     
+    public static boolean terminou(FilaPrioridade fp, FilaComum fc, ArrayList<Processo> novos, CPU cpu[]){
+        // Se a fila de prioridades está vazia vá para a fila comum
+        if(fp.isVazia()){
+            // Se a fila comum e a fila de novos está também vazia verifica-se as CPUs  
+            if(fc.isVazia()){
+                // Verifico se os CPUs estão ociosos, se sim encerra-se o escalonador
+                if(novos.isEmpty()){
+                    boolean flag = true;
+                    for(int j = 0; (j < cpu.length) && flag ; j++){
+                        if(!cpu[j].isOcioso()){
+                            flag = false;
+                        }
+                    }
+                    if(flag){
+                        return false;
+                    }
+                    return true;
+                }
+            }
+        }
+        return true;
+    }
+        
 }

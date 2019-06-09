@@ -8,12 +8,15 @@ public class CPU {
     private int id;
     private Processo p;
     private int tempoUtilizacao;
+    private int tempoTotal;         // Variavel que verifica o tempo total em que o processo atual está na cpu
     private PrintStream erro;
     
     public CPU(int id) throws UnsupportedEncodingException{
         this.erro = new PrintStream(System.err, true, "UTF-8");
         this.id = id;
         this.p = null;
+        this.tempoTotal = 0;
+        this.tempoUtilizacao = 0;
     }
     
     public int recebeProcesso(Processo p){
@@ -29,7 +32,11 @@ public class CPU {
     public int recebeProcesso(Processo p, int t){
         if(p != null){
             this.p = p;
-            this.tempoUtilizacao = t;
+            if(p.getTimeCPU() < t){
+                this.tempoUtilizacao = p.getTimeCPU();
+            }else{
+                this.tempoUtilizacao = t;
+            }
             return 0;
         }
         this.erro.println("Erro 1 (CPU.recebeProcesso): Não existe processo para ser adicionado.");
@@ -37,22 +44,23 @@ public class CPU {
     }
     
     public Object enviaProcesso(){
-        if(this.p != null){
-            if(p.getPriority() == 0){
-                this.p.setTimeCPU(0);
-            }else{
-                this.p.setTimeCPU(
-                    (this.p.getTimeCPU() - this.tempoUtilizacao)
-                );
+        if(!this.isOcioso()){   // O processo está na cpu
+            // Modifico o tempo restante do uso de CPU
+            this.p.setTimeCPU(
+                (this.p.getTimeCPU() - this.tempoUtilizacao));
                 
-                this.p.setQtdExec(
-                    (this.p.getQtdExec() + 1)
-                );
-            }
+            // Acrescento +1 na quatidade de execuções   
+            this.p.setQtdExec(
+                (this.p.getQtdExec() + 1)
+            );
             
             Processo p = this.p;
+            // "Reseto" a cpu
             this.p = null;
+            this.tempoTotal = 0;
             this.tempoUtilizacao = 0;
+            
+            // envio p
             return p;
         }
         this.erro.println("Erro 2 (CPU.enviaProcesso): Não existe processo para ser enviado.");
@@ -61,10 +69,31 @@ public class CPU {
     }
     
     public boolean isOcioso(){
-        return (this.p == null)? true: false;
+        if (this.p == null){
+            return true;
+        }
+        return false;
     }
     
     public int getPrioridadeProcesso(){
-        return (p == null) ? -1 : p.getPriority();
+        if(p == null){
+            return -1;
+        }
+        return p.getPriority();
+    }
+    
+    // Função que incrementa o tempo total
+    public void incrementaTempo(){
+        this.tempoTotal += 1;
+    }
+    
+    // Função que verifica que o tempo o processo atingiu o tempo limite
+    public boolean terminouExecucao(){
+        if(!this.isOcioso()){
+            if (this.tempoTotal == this.tempoUtilizacao){
+                return true;
+            }
+        }
+        return false;
     }
 }
