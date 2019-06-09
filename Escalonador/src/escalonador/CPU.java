@@ -59,4 +59,12 @@ public class CPU {
         return 2;
         
     }
+    
+    public boolean isOcioso(){
+        return (this.p == null)? true: false;
+    }
+    
+    public int getPrioridadeProcesso(){
+        return (p == null) ? -1 : p.getPriority();
+    }
 }

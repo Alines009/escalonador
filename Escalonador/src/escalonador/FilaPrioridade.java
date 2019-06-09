@@ -52,4 +52,8 @@ public class FilaPrioridade {
         }
         }
     }
+    
+    public boolean isVazia(){
+        return (this.filaPrioridade.size() != 0)? true: false;
+    }
 }

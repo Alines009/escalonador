@@ -77,4 +77,13 @@ public class FilaComum {
             }
         }
     }
+    
+    public boolean isVazia(){
+        for(int i = 0; i < this.filaComum.size(); i++){
+            if(this.filaComum.get(i).size() != 0){
+                return false;
+            }
+        }
+        return true;
+    }
 }
