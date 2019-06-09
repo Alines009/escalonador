@@ -48,11 +48,15 @@ public class Escalonador {
             System.out.print("\nTempo: "+quantum);
             quantum +=1;
             }
-            for(int j=0;j<256;j++){
-                memoria.getQuadroDaMP();
-            }
+
             fp.ImprimePrioridade();
             fc.ImprimeComum();
+            
+            System.out.println("MEMORIA PRINCIPAL");
+            int quadros[] = memoria.getQuadroDaMP();
+            for(int j=0;j<256;j++){
+                System.out.println(quadros[j]);
+            }
         } catch (InterruptedException ex) {}
         
     }
